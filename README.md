@@ -2,11 +2,11 @@ BooseTube
 =========
 
 TODO:
-
-Modal popup when clicking on content thumbnail
-Get audio/video working
-Set up ubuntu servers for db and application
-Search, image, video web service resources
-
-Secure file upload
-Facebook integration
+<br>
+Modal popup when clicking on content thumbnail<br>
+Get audio/video working<br>
+Set up ubuntu servers for db and application<br>
+Search, image, video web service resources<br>
+<br><br>
+Secure file upload<br>
+Facebook integration<br>
