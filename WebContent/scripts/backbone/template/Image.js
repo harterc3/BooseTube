@@ -1,1 +1,1 @@
-window.Templates.Image = _.template( "<div class=\"col-sm-6 col-md-2\"><h4><%= name %></h4><div><a href=\"#\" class=\"thumbnail\"> <img src=\"<%= filepath %>\" /></a></div><p><%= description %></p></div>" );
+window.Templates.Image = _.template( "<div class=\"col-sm-6 col-md-2\"><h4><%= name %></h4><div><a href=\"#\" onclick=\"thumbnailClick('<%= name %>','<%= filepath %>','<%= description %>')\" class=\"thumbnail\" data-toggle=\"modal\" data-target=\"#imageModal\"> <img src=\"<%= filepath %>\" alt=\"<%= name %>\" /></a></div><p><%= description %></p></div>" );

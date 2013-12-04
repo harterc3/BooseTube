@@ -3,6 +3,7 @@ package com.arctic.boosetube.mapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
@@ -23,5 +24,14 @@ public class JSONMapper {
 		}
 
 		return result;
+	}
+
+	public static DBObject mapToDBObject(JSONObject json) {
+		DBObject dbObject = new BasicDBObject();
+		for (Object oKey : json.keySet()) {
+			String key = (String) oKey;
+			dbObject.put(key, json.get(key));
+		}
+		return dbObject;
 	}
 }

@@ -2,7 +2,7 @@ App.View.ImageList = Backbone.View.extend({
 	template: window.Templates.ImageList,
 	
     initialize: function() {
-    	this.setElement($('#test')[0]);
+    	this.setElement($('#imageList')[0]);
         this.render();
     },
 

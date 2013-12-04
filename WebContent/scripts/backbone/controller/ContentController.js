@@ -1,23 +1,17 @@
 var ContentController = {
+	collection : null,
+	
 	init : function() {
-		var collection = new App.Collection.ContentCollection();
-		collection.fetch({
+		this.collection = new App.Collection.ContentCollection();
+		this.collection.fetch({
 			success : function(result) {
-				var imageList = new App.View.ImageList( { model : result.models });
-/*
-				result.models.forEach(function(item) {
-					var type = item.attributes.type;
-					switch (type) {
-					case "image":
-						var image = new App.View.Image({
-							model : item.attributes
-						});
-						imageList.addImage(image)
-						break;
-					default:
-					}
-				});*/
+				new App.View.ImageList( { model : result.models });
 			}
 		});
+	},
+	
+	search : function(searchText) {
+		var results = this.collection.where({name: searchText});
+		new App.View.ImageList({ model : results });
 	}
 };

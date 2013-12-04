@@ -1,1 +1,1 @@
-window.Templates.ImageList = _.template( "<div id=\"imageList\"></div>" );
+window.Templates.ImageList = _.template( "" );

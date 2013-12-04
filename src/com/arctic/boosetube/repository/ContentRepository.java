@@ -21,7 +21,7 @@ public class ContentRepository implements IRepository {
 		DBCollection collection = null;
 
 		try {
-			MongoClient mongoClient = new MongoClient("localhost", 27017);
+			MongoClient mongoClient = new MongoClient("54.200.248.62", 27017);
 			DB db = mongoClient.getDB("test");
 			collection = db.getCollection("content");
 		} catch (UnknownHostException e) {
@@ -34,6 +34,7 @@ public class ContentRepository implements IRepository {
 
 		BasicDBObject query = new BasicDBObject("_id", new ObjectId(id));
 		DBObject result = collection.findOne(query);
+		
 
 		return JSONMapper.map(result);
 	}
@@ -43,7 +44,7 @@ public class ContentRepository implements IRepository {
 		DBCollection collection = null;
 
 		try {
-			MongoClient mongoClient = new MongoClient("localhost", 27017);
+			MongoClient mongoClient = new MongoClient("54.200.248.62", 27017);
 			DB db = mongoClient.getDB("test");
 			collection = db.getCollection("content");
 		} catch (UnknownHostException e) {
@@ -55,6 +56,27 @@ public class ContentRepository implements IRepository {
 			return null;
 
 		DBCursor cursor = collection.find().limit(10);
+
+		return JSONMapper.map(cursor);
+	}
+	
+	@Override
+	public JSONArray read(DBObject query) {
+		DBCollection collection = null;
+
+		try {
+			MongoClient mongoClient = new MongoClient("54.200.248.62", 27017);
+			DB db = mongoClient.getDB("test");
+			collection = db.getCollection("content");
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (collection == null)
+			return null;
+
+		DBCursor cursor = collection.find(query);
 
 		return JSONMapper.map(cursor);
 	}
