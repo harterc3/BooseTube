@@ -1,2 +1,8 @@
 /home/development/eclipse-jee/workspace/BooseTubeService/src/com/arctic/boosetube/resource/ContentResource.java
-/home/development/eclipse-jee/workspace/BooseTubeService/src/com/arctic/boosetube/CORSFilter.java
+/home/development/eclipse-jee/workspace/BooseTubeService/src/com/arctic/boosetube/service/ContentService.java
+/home/development/eclipse-jee/workspace/BooseTubeService/src/com/arctic/boosetube/repository/IRepository.java
+/home/development/eclipse-jee/workspace/BooseTubeService/src/com/arctic/boosetube/mapper/JSONMapper.java
+/home/development/eclipse-jee/workspace/BooseTubeService/src/com/arctic/boosetube/entity/IEntity.java
+/home/development/eclipse-jee/workspace/BooseTubeService/src/com/arctic/boosetube/entity/array/ContentArray.java
+/home/development/eclipse-jee/workspace/BooseTubeService/src/com/arctic/boosetube/repository/ContentRepository.java
+/home/development/eclipse-jee/workspace/BooseTubeService/src/com/arctic/boosetube/entity/Content.java
