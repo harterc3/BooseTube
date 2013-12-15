@@ -36,10 +36,11 @@
 	})(window, document, 'script', '//www.google-analytics.com/analytics.js',
 			'ga');
 
-	//ga('create', 'UA-XXXX-Y', 'auto');
+	ga('create', 'UA-46474006-1', 'boosetube.com');
 	ga('send', 'pageview');
 </script>
 <!-- End Google Analytics -->
+
 </head>
 <body>
 	<nav class="navbar navbar-default" role="navigation">
@@ -67,9 +68,11 @@
 			 -->
 			<form class="navbar-form navbar-right" role="search">
 				<div class="form-group">
-					<input type="text" id="txtSearch" class="form-control" placeholder="Search">
+					<input type="text" id="txtSearch" class="form-control"
+						placeholder="Search">
 				</div>
-				<button type="button" id="btnSearch" class="btn btn-default" data-loading-text="Searching...">Go</button>
+				<button type="button" id="btnSearch" class="btn btn-default"
+					data-loading-text="Searching...">Go</button>
 			</form>
 		</div>
 	</nav>
@@ -86,7 +89,7 @@
 					<h4 class="modal-title" id="modalTitle">Modal title</h4>
 				</div>
 				<div class="modal-body">
-					<img id="modalImage" style="width:100%"/>
+					<img id="modalImage" style="width: 100%" />
 					<p id="modalDescription"></p>
 				</div>
 				<div class="modal-footer">
@@ -120,12 +123,12 @@
 		ContentController.init();
 	</script>
 	<script type="text/javascript">
-	$(document).ready(function() {
-		$("#btnSearch").click(function() {
-			var txtSearch = $("#txtSearch")[0];
-			ContentController.search(txtSearch.value);
+		$(document).ready(function() {
+			$("#btnSearch").click(function() {
+				var txtSearch = $("#txtSearch")[0];
+				ContentController.search(txtSearch.value);
+			});
 		});
-	});
 		function thumbnailClick(name, filepath, description) {
 			$("#modalImage").attr("src", filepath);
 			$("#modalTitle").html(name);
