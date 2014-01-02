@@ -3,8 +3,7 @@ BooseTube
 
 TODO:
 <br>
-Get audio/video working<br>
-Set up ubuntu server for application<br>
+Get audio/video content working<br>
 Facebook integration<br>
 Analytics<br>
 <br>
