@@ -11,7 +11,9 @@ var ContentController = {
 	},
 	
 	search : function(searchText) {
-		var results = this.collection.where({name: searchText});
+		var results = this.collection.find(function(model) {
+			return model.get('name').contains(searchText);
+		});
 		new App.View.ImageList({ model : results });
 	}
 };
