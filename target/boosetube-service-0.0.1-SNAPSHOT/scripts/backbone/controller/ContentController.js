@@ -12,7 +12,7 @@ var ContentController = {
 	
 	search : function(searchText) {
 		var results = this.collection.find(function(model) {
-			return _.contains(model.get('name'), searchText);
+			return model.get('name').indexOf(searchText) >= 0;
 		});
 		new App.View.ImageList({ model : results });
 	}
