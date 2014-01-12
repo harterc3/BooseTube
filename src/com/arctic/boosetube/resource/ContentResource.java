@@ -23,9 +23,18 @@ public class ContentResource {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getContentById(@PathParam("id") String id) {
-		IRepository repository = new ContentRepository();
-		JSONObject json = repository.read(id);
-		return Response.status(200).entity(json.toString()).build();
+		String cacheKey = String.format("content_%s", id);
+		String cacheValue = ""; // cache.get(cacheKey);
+
+		if (cacheValue == null || cacheValue.equals("")) {
+			IRepository repository = new ContentRepository();
+			JSONObject json = repository.read(id);
+			String result = json.toString();
+			// cache.put(cacheKey, result);
+			return Response.status(200).entity(result).build();
+		}
+
+		return Response.status(200).entity(cacheValue).build();
 	}
 
 	@GET
@@ -33,15 +42,23 @@ public class ContentResource {
 	public Response getContent(
 			@DefaultValue("") @QueryParam(value = "type") final String type,
 			@DefaultValue("") @QueryParam(value = "name") final String name) {
-		JSONArray json = null;
-		if (type.equals("") && name.equals("")) {
-			IRepository repository = new ContentRepository();
-			json = repository.readAll();
-			return Response.status(200).entity(json.toString()).build();
-		} else {
-			json = ContentService.findByCriteria(type, name);
+		String cacheKey = String.format("content_%s_%s", type, name);
+		String cacheValue = ""; // cache.get(cacheKey);
+
+		if (cacheValue == null || cacheValue.equals("")) {
+			JSONArray json = null;
+			if (type.equals("") && name.equals("")) {
+				IRepository repository = new ContentRepository();
+				json = repository.readAll();
+				return Response.status(200).entity(json.toString()).build();
+			} else {
+				json = ContentService.findByCriteria(type, name);
+			}
+			String result = json.toString();
+			// cache.put(cacheKey, result);
+			return Response.status(200).entity(result).build();
 		}
 
-		return Response.status(200).entity(json.toString()).build();
+		return Response.status(200).entity(cacheValue).build();
 	}
 }

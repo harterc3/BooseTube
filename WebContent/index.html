@@ -105,6 +105,27 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="videoModal" tabindex="-1" role="dialog"
+		aria-labelledby="modalTitle" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="modalTitle">Modal title</h4>
+				</div>
+				<div class="modal-body">
+					<video width="360" height="203" id="modalVideo" type="video/mp4" controls="controls"></video>
+					<p id="modalDescription"></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<script type="text/javascript">
 		// Backbone setup
