@@ -9,6 +9,10 @@ public interface IRepository {
 	JSONObject read(String id);
 
 	JSONArray readAll();
-	
+
 	JSONArray read(DBObject query);
+
+	String create(DBObject object);
+
+	boolean delete(String id);
 }

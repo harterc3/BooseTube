@@ -1,12 +1,16 @@
 package com.arctic.boosetube.resource;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -14,23 +18,39 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.commons.fileupload.FileItemIterator;
-import org.apache.commons.fileupload.FileItemStream;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FilenameUtils;
+import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import com.arctic.boosetube.model.FileMeta;
+import com.arctic.boosetube.repository.ContentRepository;
+import com.arctic.boosetube.repository.IRepository;
+import com.arctic.boosetube.service.ConfigurationService;
+import com.arctic.boosetube.service.ContentService;
 
 @Path("/upload")
 public class UploadResource {
 
-	final private String fileUploadPath = "C:\\uploads\\";
+	private String fileUploadPath = null;
 
+	public UploadResource() {
+		ConfigurationService configService = new ConfigurationService();
+		fileUploadPath = configService.getString("file-upload.path");
+	}
+
+	// this needs to take an id path param
+	// use id to get file data
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUpload(@QueryParam("filename") String filename)
@@ -45,46 +65,113 @@ public class UploadResource {
 		String name = file.getName();
 
 		JSONArray json = new JSONArray();
-		json.put(buildJsonObject(name));
+		json.put(buildResponseJsonObject(name));
 
 		return Response.status(200).entity(json.toString()).build();
 	}
 
+	// this needs to put file data in filemeta object
+	// filemeta object maps to jsonobject
+	// jsonobject put in mongodb
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response postUpload(@Context final HttpServletRequest request)
 			throws Exception {
+		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 
-		final ServletFileUpload upload = new ServletFileUpload();
-		final FileItemIterator iter = upload.getItemIterator(request);
+		if (isMultipart) {
+			// Create a factory for disk-based file items
+			DiskFileItemFactory factory = new DiskFileItemFactory();
 
-		JSONArray json = new JSONArray();
+			// Set factory constraints
+			factory.setSizeThreshold(1000000);
+			factory.setRepository(new File(this.fileUploadPath));
 
-		while (iter.hasNext()) {
-			final FileItemStream item = iter.next();
+			// Create a new file upload handler
+			ServletFileUpload upload = new ServletFileUpload(factory);
 
-			String name = item.getName();
-			final InputStream stream = item.openStream();
-			String filepath = fileUploadPath.concat(name);
-			writeToFile(stream, filepath);
+			// Set overall request size constraint
+			upload.setSizeMax(1000000);
 
-			json.put(buildJsonObject(name));
+			// Parse the request
+			List<FileItem> items = upload.parseRequest(request);
+
+			// Process the uploaded items
+			Iterator<FileItem> iter = items.iterator();
+			JSONArray json = new JSONArray();
+			FileMeta filemeta = new FileMeta();
+			while (iter.hasNext()) {
+				FileItem item = iter.next();
+
+				String itemName = item.getFieldName();
+				final InputStream stream = item.getInputStream();
+
+				switch (itemName) {
+				case "title":
+					filemeta.setTitle(getStringFromInputStream(stream));
+					break;
+				case "description":
+					filemeta.setDescription(getStringFromInputStream(stream));
+					break;
+				case "keywords":
+					String allWords = getStringFromInputStream(stream);
+					String[] keywords = allWords.split(",");
+					for (int i = 0; i < keywords.length; i++) {
+						String temp = keywords[i];
+						keywords[i] = temp.trim();
+					}
+					filemeta.setKeywords(keywords);
+					break;
+				default:
+					String ext = FilenameUtils.getExtension(item.getName());
+					String oid = ObjectId.get().toString();
+					filemeta.setId(oid);
+					String name = String.format("%s.%s", oid, ext);
+					String filepath = fileUploadPath.concat(name);
+					filemeta.setPath(filepath);
+					writeToFile(stream, filepath);
+					File file = new File(fileUploadPath, name);
+					if (!file.exists())
+						return Response.noContent().build();
+
+					String mimeType = Files.probeContentType(Paths
+							.get(filepath));
+					if (mimeType.startsWith("image")) {
+						filemeta.setType(FileMeta.FileType.Image);
+					} else if (mimeType.startsWith("video")) {
+						filemeta.setType(FileMeta.FileType.Video);
+					} else if (mimeType.startsWith("video")) {
+						filemeta.setType(FileMeta.FileType.Audio);
+					} else {
+						filemeta.setType(FileMeta.FileType.Unknown);
+					}
+
+					json.put(buildResponseJsonObject(name));
+					break;
+				}
+			}
+			String finalId = ContentService.createObject(filemeta);
+			return Response.status(200).entity(json.toString()).build();
 		}
-		return Response.status(200).entity(json.toString()).build();
+		return Response.notModified().build();
 	}
 
 	@DELETE
-	public Response deleteUpload(@QueryParam("filename") String filename) {
-		if (filename == null || filename.isEmpty())
+	@Path("/{id}")
+	public Response deleteUpload(@PathParam("id") String id) {
+		if (id == null || id.isEmpty())
 			return Response.notModified().build();
-
-		File file = new File(fileUploadPath, filename);
+		IRepository repository = new ContentRepository();
+		String filepath = (String) repository.read(id).get("filepath");
+		File file = new File(filepath);
 		if (!file.exists())
 			return Response.noContent().build();
 
-		if (file.delete())
-			return Response.ok().build();
+		if (file.delete()) {
+			if (repository.delete(id))
+				return Response.ok().build();
+		}
 
 		return Response.notModified().build();
 	}
@@ -110,7 +197,7 @@ public class UploadResource {
 		}
 	}
 
-	void closeQuietly(FileOutputStream out) {
+	private void closeQuietly(FileOutputStream out) {
 		try {
 			out.flush();
 			out.close();
@@ -119,7 +206,7 @@ public class UploadResource {
 		}
 	}
 
-	private JSONObject buildJsonObject(String name) throws IOException {
+	private JSONObject buildResponseJsonObject(String name) throws IOException {
 		String filepath = fileUploadPath.concat(name);
 		BasicFileAttributes attr = Files.readAttributes(Paths.get(filepath),
 				BasicFileAttributes.class);
@@ -132,5 +219,35 @@ public class UploadResource {
 		jsono.put("delete_type", "DELETE");
 
 		return jsono;
+	}
+
+	// convert InputStream to String
+	private static String getStringFromInputStream(InputStream is) {
+
+		BufferedReader br = null;
+		StringBuilder sb = new StringBuilder();
+
+		String line;
+		try {
+
+			br = new BufferedReader(new InputStreamReader(is));
+			while ((line = br.readLine()) != null) {
+				sb.append(line);
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return sb.toString();
+
 	}
 }

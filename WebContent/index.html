@@ -11,6 +11,8 @@
 <meta property="og:site_name" content="BooseTube"/>
 <meta property="og:type" content="website"/>
 
+<meta property="fb:admins" content="harterco"/>
+
 <title>BooseTube</title>
 <link rel="shortcut icon" href="favicon.png" />
 <script type="text/javascript" src="scripts/vendor/jquery-1.10.2.min.js"></script>
@@ -50,6 +52,17 @@
 
 </head>
 <body>
+
+<!-- facebook integration -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<!-- facebook integration end -->
 	<nav class="navbar navbar-default" role="navigation">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
@@ -84,7 +97,7 @@
 		</div>
 	</nav>
 	<div id="imageList" class="row"></div>
-
+<div class="fb-comments" data-href="http://example.com/comments" data-numposts="5" data-colorscheme="dark"></div>
 	<!-- Modal -->
 	<div class="modal fade" id="imageModal" tabindex="-1" role="dialog"
 		aria-labelledby="modalTitle" aria-hidden="true">

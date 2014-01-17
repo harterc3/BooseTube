@@ -1,45 +1,69 @@
 package com.arctic.boosetube.model;
 
 public class FileMeta {
-	private String fileName;
-	private String fileSize;
-	private String fileType;
-
-	private byte[] bytes;
+	private String id;
+	private String path;
+	private String title;
+	private String description;
+	private String[] keywords;
+	
+	public enum FileType {
+		Image,
+		Audio,
+		Video,
+		Unknown
+	}
+	
+	private FileType type;
 	
 	public FileMeta() {
-		fileName = "";
-		fileSize = "";
-		fileType = "";
-		bytes = null;
 	}
 
-	public String getFileName() {
-		return fileName;
+	public String getPath() {
+		return path;
 	}
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
+	public void setPath(String path) {
+		this.path = path;
 	}
 
-	public String getFileSize() {
-		return fileSize;
+	public String getTitle() {
+		return title;
 	}
 
-	public String getFileType() {
-		return fileType;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public void setFileType(String fileType) {
-		this.fileType = fileType;
+	public String getDescription() {
+		return description;
 	}
 
-	public byte[] getBytes() {
-		return bytes;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public void setBytes(byte[] bytes) {
-		this.bytes = bytes;
-		this.fileSize = String.format("%.2fkb",(bytes.length / 1000.0));
+	public String[] getKeywords() {
+		return keywords;
+	}
+
+	public void setKeywords(String[] keywords) {
+		this.keywords = keywords;
+	}
+
+	public FileType getType() {
+		return type;
+	}
+
+	public void setType(FileType type) {
+		this.type = type;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 }
