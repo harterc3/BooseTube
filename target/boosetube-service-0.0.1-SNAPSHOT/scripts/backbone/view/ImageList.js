@@ -13,7 +13,7 @@ App.View.ImageList = Backbone.View.extend({
         
         var self = this;
         _.each(this.model, function(item) {
-        	self.$el.append(new App.View.Image({model:item.attributes}).el);
+        	self.$el.append(new App.View.Thumbnail({model:item.attributes}).el);
         });
     },
     

@@ -33,6 +33,17 @@
 			<role-name>provider</role-name>
 		</auth-constraint>
 	</security-constraint>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>UploadServlet</web-resource-name>
+			<url-pattern>/rest/upload/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>provider</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
 	<login-config>
 		<auth-method>BASIC</auth-method>
 		<realm-name>Application</realm-name>

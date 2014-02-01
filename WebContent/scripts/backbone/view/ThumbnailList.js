@@ -1,8 +1,9 @@
-App.View.ImageList = Backbone.View.extend({
-	template: window.Templates.ImageList,
+App.View.ThumbnailList = Backbone.View.extend({
+	template: window.Templates.ThumbnailList,
 	
-    initialize: function() {
-    	this.setElement($('#imageList')[0]);
+    initialize: function(params) {
+    	this.controller = params.controller;
+    	this.setElement($('#thumbList')[0]);
         this.render();
     },
 
@@ -13,7 +14,7 @@ App.View.ImageList = Backbone.View.extend({
         
         var self = this;
         _.each(this.model, function(item) {
-        	self.$el.append(new App.View.Image({model:item.attributes}).el);
+        	self.$el.append(new App.View.Thumbnail({model:item.attributes,controller:self}).el);
         });
     },
     

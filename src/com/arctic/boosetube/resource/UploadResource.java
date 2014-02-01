@@ -1,11 +1,9 @@
 package com.arctic.boosetube.resource;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -38,6 +36,7 @@ import com.arctic.boosetube.repository.ContentRepository;
 import com.arctic.boosetube.repository.IRepository;
 import com.arctic.boosetube.service.ConfigurationService;
 import com.arctic.boosetube.service.ContentService;
+import com.arctic.boosetube.util.StringUtil;
 
 @Path("/upload")
 public class UploadResource {
@@ -49,8 +48,6 @@ public class UploadResource {
 		fileUploadPath = configService.getString("file-upload.path");
 	}
 
-	// this needs to take an id path param
-	// use id to get file data
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUpload(@QueryParam("filename") String filename)
@@ -65,14 +62,12 @@ public class UploadResource {
 		String name = file.getName();
 
 		JSONArray json = new JSONArray();
-		json.put(buildResponseJsonObject(name));
+		json.put(buildResponseJsonObject(name,
+				filename.substring(0, filename.indexOf('.') - 1)));
 
 		return Response.status(200).entity(json.toString()).build();
 	}
 
-	// this needs to put file data in filemeta object
-	// filemeta object maps to jsonobject
-	// jsonobject put in mongodb
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -109,13 +104,16 @@ public class UploadResource {
 
 				switch (itemName) {
 				case "title":
-					filemeta.setTitle(getStringFromInputStream(stream));
+					filemeta.setTitle(StringUtil
+							.getStringFromInputStream(stream));
 					break;
 				case "description":
-					filemeta.setDescription(getStringFromInputStream(stream));
+					filemeta.setDescription(StringUtil
+							.getStringFromInputStream(stream));
 					break;
 				case "keywords":
-					String allWords = getStringFromInputStream(stream);
+					String allWords = StringUtil
+							.getStringFromInputStream(stream);
 					String[] keywords = allWords.split(",");
 					for (int i = 0; i < keywords.length; i++) {
 						String temp = keywords[i];
@@ -147,11 +145,11 @@ public class UploadResource {
 						filemeta.setType(FileMeta.FileType.Unknown);
 					}
 
-					json.put(buildResponseJsonObject(name));
+					json.put(buildResponseJsonObject(name, oid));
 					break;
 				}
 			}
-			String finalId = ContentService.createObject(filemeta);
+			ContentService.createObject(filemeta);
 			return Response.status(200).entity(json.toString()).build();
 		}
 		return Response.notModified().build();
@@ -206,7 +204,8 @@ public class UploadResource {
 		}
 	}
 
-	private JSONObject buildResponseJsonObject(String name) throws IOException {
+	private JSONObject buildResponseJsonObject(String name, String oid)
+			throws IOException {
 		String filepath = fileUploadPath.concat(name);
 		BasicFileAttributes attr = Files.readAttributes(Paths.get(filepath),
 				BasicFileAttributes.class);
@@ -214,40 +213,10 @@ public class UploadResource {
 		JSONObject jsono = new JSONObject();
 		jsono.put("name", name);
 		jsono.put("size", attr.size());
-		jsono.put("url", "/rest/upload?filename=" + name);
-		jsono.put("delete_url", "/rest/upload?filename=" + name);
+		jsono.put("url", fileUploadPath.concat(name));
+		jsono.put("delete_url", "/rest/upload/".concat(oid));
 		jsono.put("delete_type", "DELETE");
 
 		return jsono;
-	}
-
-	// convert InputStream to String
-	private static String getStringFromInputStream(InputStream is) {
-
-		BufferedReader br = null;
-		StringBuilder sb = new StringBuilder();
-
-		String line;
-		try {
-
-			br = new BufferedReader(new InputStreamReader(is));
-			while ((line = br.readLine()) != null) {
-				sb.append(line);
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		return sb.toString();
-
 	}
 }

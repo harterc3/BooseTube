@@ -2,11 +2,6 @@ package com.arctic.boosetube.repository;
 
 import java.net.UnknownHostException;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.servlet.ServletContext;
-import javax.ws.rs.core.Context;
-
 import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONObject;
