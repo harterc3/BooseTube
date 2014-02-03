@@ -3,11 +3,7 @@ BooseTube
 
 TODO:
 <br>
-Server-side caching<br>
-Get audio/video content working<br>
+Clean up server code<br>
+Redo front-end<br>
 Facebook integration<br>
-Configuration moved out of code<br>
-Error logging<br>
-<br>
-Secure file upload<br>
 
