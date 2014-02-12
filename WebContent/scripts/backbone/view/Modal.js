@@ -41,6 +41,7 @@ App.View.Modal = Backbone.View.extend({
     },
     
     _setModalHiddenListener: function() {
+    	var self = this;
     	this.$el.on('hidden.bs.modal', function (e) {
     		var av = $('video,audio');
     		av && av.length > 0 && av[0].player.pause();
