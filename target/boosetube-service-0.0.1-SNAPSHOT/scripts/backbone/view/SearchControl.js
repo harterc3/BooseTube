@@ -1,6 +1,8 @@
 App.View.SearchControl = Backbone.View.extend({
 	template: window.Templates.SearchControl,
 	
+	currentType: "",
+	
 	events: function() {
         return navigator.userAgent.match(/mobile/i) ? 
         {
@@ -19,7 +21,7 @@ App.View.SearchControl = Backbone.View.extend({
         var txtSearch = this.$el.find("#txtSearch");
         var self = this;
         txtSearch.bind("enterKey",function(e){
-    	   self.controller.search(txtSearch.val());
+    	   self.controller.search(txtSearch.val(), self.currentType);
     	});
         txtSearch.keyup(function(e){
     	    if(e.keyCode == 13)
@@ -44,5 +46,7 @@ App.View.SearchControl = Backbone.View.extend({
     	var options = this.$el.find(".contentOption");
     	options.removeClass("active");
     	$(e.currentTarget).addClass("active");
+    	var selected = $(e.currentTarget);
+    	this.currentType = selected.attr("data-type");
     }
 });

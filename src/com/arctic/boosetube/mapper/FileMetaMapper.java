@@ -16,11 +16,15 @@ public class FileMetaMapper {
 		BasicDBObject dbo = new BasicDBObject();
 
 		dbo.put("_id", new ObjectId(fileMeta.getId()));
-		dbo.put("name", fileMeta.getTitle());
+		dbo.put("title", fileMeta.getTitle());
 		dbo.put("filepath", fileMeta.getPath());
 		dbo.put("description", fileMeta.getDescription());
 		dbo.put("keywords",
 				new BasicDBList().addAll(Arrays.asList(fileMeta.getKeywords())));
+		dbo.put("thumbpath", "");
+		dbo.put("rating", 0);
+		dbo.put("views", 0);
+		dbo.put("attributes", new BasicDBObject());
 
 		String type = "unknown";
 		FileMeta.FileType fileType = fileMeta.getType();

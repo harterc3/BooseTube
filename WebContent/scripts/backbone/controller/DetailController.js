@@ -20,8 +20,8 @@ var DetailController = {
 	fillMeta : function() {
 		if (this.content == null) return;
 		
-		$("title").html("BooseTube | " + this.content.attributes.name);
-		$("meta[property='og:title']").attr("content", "BooseTube | " + this.content.attributes.name);
+		$("title").html("BooseTube | " + this.content.attributes.title);
+		$("meta[property='og:title']").attr("content", "BooseTube | " + this.content.attributes.title);
 		$("meta[property='og:description']").attr("content", this.content.attributes.description);
 		$("meta[property='og:image']").attr("content", "http://www.boosetube.com/" + this.content.attributes.filepath);
 		$("meta[property='og:url']").attr("content", document.URL);

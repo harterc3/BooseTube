@@ -1,4 +1,0 @@
-AuthUserFile C:\Users\Fury\.htpasswd
-AuthType Basic
-AuthName "Restricted Folder"
-Require valid-user

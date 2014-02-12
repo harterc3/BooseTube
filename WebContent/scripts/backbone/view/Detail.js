@@ -14,6 +14,7 @@ App.View.Detail = Backbone.View.extend({
     render: function() {
         if ( !this.template ) return;
         
+        this.model.attributes.url = "http://boosetube.com/detail.html?id=" + this.model.attributes._id;
         this.$el.html( this.template( this.model.attributes ));
         
         this._renderContentType();
@@ -25,7 +26,7 @@ App.View.Detail = Backbone.View.extend({
     		tpl = this.videoTemplate;
     	else if (this.model.attributes.type == "audio")
     		tpl = this.audioTemplate;
-    		
+    	
     	this.$el.find("#detailItem").html(tpl(this.model.attributes));
     	
     	if (this.model.attributes.type == "video") {

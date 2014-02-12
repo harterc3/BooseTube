@@ -18,7 +18,7 @@ App.View.Thumbnail = Backbone.View.extend({
 
     render: function() {
         if ( !this.template ) return;
-        
+        if (this.model.thumbpath == "") this.model.thumbpath = this.model.filepath;
         this.$el.html( this.template( this.model ));
     },
     

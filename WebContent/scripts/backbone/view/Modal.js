@@ -3,9 +3,12 @@ App.View.Modal = Backbone.View.extend({
 	videoTemplate: window.Templates.ModalVideo,
 	audioTemplate: window.Templates.ModalAudio,
 	
+	fbCommentDiv: null,
+	
     initialize: function(params) {
     	this.controller = params.controller;
     	this.setElement($('#contentModal')[0]);
+    	this.fbCommentDiv = this.$el.find(".modal-footer .fb-comments");
     },
     
     updateModal: function(model) {
@@ -16,17 +19,34 @@ App.View.Modal = Backbone.View.extend({
     	this.$el.find(".modal-body").html(tpl(model));
     	
     	this.$el.find("#modalImage").attr("src", model.filepath);
-    	this.$el.find("#modalTitle").html(model.name);
+    	this.$el.find("#modalTitle").html(model.title);
     	
-    	history.pushState({},"","detail.html?id=" + model._id);
-    	this.$el.on('hidden.bs.modal', function () {
-    		history.back();
-		});
+    	var urlSuffix = "detail.html?id=" + model._id;
+    	history.pushState({},"", urlSuffix);
+    	
+    	this._updateFacebookPlugin(urlSuffix);
+    	
+    	this._setModalHiddenListener();
     	
     	if (model.type == "video") {
     		this.$el.find('video').mediaelementplayer();
     	} else if (model.type == "audio") {
     		this.$el.find('audio').mediaelementplayer();
     	}
+    },
+    
+    _updateFacebookPlugin: function() {
+    	this.fbCommentDiv.attr("data-href", "http://boosetube.com/"+urlSuffix);
+    	FB.XFBML.parse();
+    },
+    
+    _setModalHiddenListener: function() {
+    	this.$el.on('hidden.bs.modal', function (e) {
+    		var av = $('video,audio');
+    		av && av.length > 0 && av[0].player.pause();
+    		history.back();
+    		$(e.currentTarget).unbind();
+    		self.fbCommentDiv.attr("data-href", "http://boosetube.com/");
+		});
     }
 });

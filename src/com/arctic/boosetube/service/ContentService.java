@@ -22,17 +22,17 @@ public class ContentService {
 	private final static Cache contentCache = CacheManager.getInstance()
 			.getCache("content");
 
-	public static JSONArray get(String name, String type) {
-		String cacheKey = String.format("content_%s_%s", type, name);
+	public static JSONArray get(String title, String type) {
+		String cacheKey = String.format("content_%s_%s", type, title);
 		Element cacheElement = contentCache.get(cacheKey);
 
 		if (cacheElement == null) {
 			JSONArray json = null;
-			if (type.isEmpty() && name.isEmpty()) {
+			if (type.isEmpty() && title.isEmpty()) {
 				IRepository repository = new ContentRepository();
 				json = repository.readAll();
 			} else {
-				json = ContentService.findByCriteria(type, name);
+				json = ContentService.findByCriteria(type, title);
 			}
 			contentCache.put(new Element(cacheKey, json));
 			return json;
@@ -62,12 +62,12 @@ public class ContentService {
 		return cacheValue;
 	}
 
-	private static JSONArray findByCriteria(String type, String name) {
+	private static JSONArray findByCriteria(String type, String title) {
 		DBObject query = new BasicDBObject();
 		if (!type.isEmpty())
 			query.put("type", type);
-		if (!name.isEmpty())
-			query.put("name", Pattern.compile(name));
+		if (!title.isEmpty())
+			query.put("title", Pattern.compile(title));
 
 		IRepository repository = new ContentRepository();
 		return repository.read(query);

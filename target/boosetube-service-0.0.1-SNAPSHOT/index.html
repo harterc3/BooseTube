@@ -60,33 +60,8 @@
 <script type="text/javascript"
 	src="scripts/vendor/mediaelement-and-player.min.js"></script>
 
-<style type="text/css">
-.row {
-	margin-right: 0px;
-	margin-left: 0px;
-}
-
-#modalDescription {
-	margin: 10px 0;
-}
-
-.navbar {
-	border-radius: inherit;
-}
-
-p.thumbDescription {
-	margin: 0 0;
-}
-
-a.thumbAnchor {
-	margin-bottom: 10px;
-}
-
-input#txtSearch {
-	padding: 10px 15px;
-	margin-top: 5px;
-}
-</style>
+<link rel="stylesheet" href="styles/main.css">
+<script type="text/javascript" src="scripts/main.js"></script>
 
 <!-- Google Analytics -->
 <script>
@@ -135,8 +110,8 @@ input#txtSearch {
 		<footer>
 			<div class="container-fluid">
 				<ul class="nav nav-pills pull-left">
-					<li><a class="about-link" href="/about">About</a></li>
-					<li><a class="contact-link" href="/contact">Contact</a></li>
+					<li><a class="about-link" href="/about.html">About</a></li>
+					<li><a class="contact-link" href="/contact.html">Contact</a></li>
 				</ul>
 				<ul class="nav nav-pills pull-right social-nav">
 					<li>© 2014 Arctic Studios LLC</li>
@@ -161,7 +136,7 @@ input#txtSearch {
 
 				</div>
 				<div class="modal-footer">
-					<div class="fb-comments" data-href="http://example.com/comments"
+					<div class="fb-comments" data-href="http://boosetube.com/"
 						data-numposts="5" data-colorscheme="light"></div>
 					<button type="button" class="btn btn-default btnClose"
 						data-dismiss="modal">Close</button>
@@ -206,10 +181,6 @@ input#txtSearch {
 	</script>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$("#btnSearch").click(function() {
-				var txtSearch = $("#txtSearch")[0];
-				ContentController.search(txtSearch.value);
-			});
 			$('video,audio').mediaelementplayer();
 		});
 	</script>

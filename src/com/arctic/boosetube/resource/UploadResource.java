@@ -1,5 +1,8 @@
 package com.arctic.boosetube.resource;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,6 +13,8 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+import javax.media.Player;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -37,15 +42,18 @@ import com.arctic.boosetube.repository.IRepository;
 import com.arctic.boosetube.service.ConfigurationService;
 import com.arctic.boosetube.service.ContentService;
 import com.arctic.boosetube.util.StringUtil;
+import com.arctic.boosetube.util.VideoUtil;
 
 @Path("/upload")
 public class UploadResource {
 
 	private String fileUploadPath = null;
+	private String thumbUploadPath = null;
 
 	public UploadResource() {
 		ConfigurationService configService = new ConfigurationService();
 		fileUploadPath = configService.getString("file-upload.path");
+		thumbUploadPath = configService.getString("file-upload.thumb-path");
 	}
 
 	@GET
@@ -139,7 +147,19 @@ public class UploadResource {
 						filemeta.setType(FileMeta.FileType.Image);
 					} else if (mimeType.startsWith("video")) {
 						filemeta.setType(FileMeta.FileType.Video);
-					} else if (mimeType.startsWith("video")) {
+						
+						// thumbnail code
+						/*
+						Player player = VideoUtil.getPlayer(file.getAbsolutePath());
+
+						Image thumb = VideoUtil.getImageOfCurrentFrame(player,
+								VideoUtil.noOfFrames(player) / 2);
+						ImageIO.write(toBufferedImage(thumb, BufferedImage.TYPE_INT_RGB), "jpeg", new File(
+								this.thumbUploadPath + name));
+								*/
+						//
+						
+					} else if (mimeType.startsWith("audio")) {
 						filemeta.setType(FileMeta.FileType.Audio);
 					} else {
 						filemeta.setType(FileMeta.FileType.Unknown);
@@ -218,5 +238,14 @@ public class UploadResource {
 		jsono.put("delete_type", "DELETE");
 
 		return jsono;
+	}
+
+	public BufferedImage toBufferedImage(final Image image, final int type) {
+		final BufferedImage buffImg = new BufferedImage(image.getWidth(null),
+				image.getHeight(null), type);
+		final Graphics2D g2 = buffImg.createGraphics();
+		g2.drawImage(image, null, null);
+		g2.dispose();
+		return buffImg;
 	}
 }
