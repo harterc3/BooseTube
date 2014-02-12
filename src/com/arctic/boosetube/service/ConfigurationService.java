@@ -8,8 +8,8 @@ public class ConfigurationService {
 
 	public ConfigurationService() {
 		try {
-			_config = new XMLConfiguration(
-					"C:\\Users\\Fury\\git\\BooseTube\\configuration.xml");
+			_config = new XMLConfiguration( 
+					"/var/lib/tomcat7/webapps/ROOT/configuration.xml");
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
 		}

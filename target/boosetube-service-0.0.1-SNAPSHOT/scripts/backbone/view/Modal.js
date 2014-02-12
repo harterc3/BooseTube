@@ -35,12 +35,13 @@ App.View.Modal = Backbone.View.extend({
     	}
     },
     
-    _updateFacebookPlugin: function() {
+    _updateFacebookPlugin: function(urlSuffix) {
     	this.fbCommentDiv.attr("data-href", "http://boosetube.com/"+urlSuffix);
     	FB.XFBML.parse();
     },
     
     _setModalHiddenListener: function() {
+    	var self = this;
     	this.$el.on('hidden.bs.modal', function (e) {
     		var av = $('video,audio');
     		av && av.length > 0 && av[0].player.pause();
