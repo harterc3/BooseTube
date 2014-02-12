@@ -35,7 +35,7 @@ App.View.Modal = Backbone.View.extend({
     	}
     },
     
-    _updateFacebookPlugin: function() {
+    _updateFacebookPlugin: function(urlSuffix) {
     	this.fbCommentDiv.attr("data-href", "http://boosetube.com/"+urlSuffix);
     	FB.XFBML.parse();
     },
