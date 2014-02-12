@@ -1,1 +1,0 @@
-window.Templates.ImageList = _.template( "" );

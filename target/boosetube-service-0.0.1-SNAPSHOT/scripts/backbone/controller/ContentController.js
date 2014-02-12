@@ -9,22 +9,25 @@ var ContentController = {
 		this.collection = new App.Collection.ContentCollection();
 		var self = this;
 		this.collection.fetch({
+			data: $.param({title: getQueryStringParam("title"), type: getQueryStringParam("type")}),
 			success : function(result) {
-				this.thumbnailList = new App.View.ThumbnailList( { model : result.models, controller : self });
+				self.thumbnailList = new App.View.ThumbnailList( { model : result.models, controller : self });
 			}
 		});
 	},
 	
 	populateModal : function(model) {
 		this.modal.updateModal(model);
+		FB.XFBML.parse();
 	},
 	
-	search : function(searchText) {
+	search : function(searchText, searchType) {
 		this.collection.reset();
+		var self = this;
 		this.collection.fetch({
-			data: $.param({name: searchText}),
+			data: $.param({title: searchText, type: searchType}),
 			success : function(result) {
-				this.thumbnailList = new App.View.ThumbnailList( { model : result.models, controller : self });
+				self.thumbnailList = new App.View.ThumbnailList( { model : result.models, controller : self });
 			}
 		});
 	}

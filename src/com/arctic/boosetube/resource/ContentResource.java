@@ -20,8 +20,8 @@ public class ContentResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getContent(
 			@DefaultValue("") @QueryParam(value = "type") final String type,
-			@DefaultValue("") @QueryParam(value = "name") final String name) {
-		JSONArray json = ContentService.get(name, type);
+			@DefaultValue("") @QueryParam(value = "title") final String title) {
+		JSONArray json = ContentService.get(title, type);
 		return Response.status(200).entity(json.toString()).build();
 	}
 
@@ -31,7 +31,16 @@ public class ContentResource {
 	public Response getContentById(@PathParam("id") String id) {
 		if (id == null || id.isEmpty())
 			return Response.noContent().build();
-
+		/*
+		if (id.equals("ahoy")) {
+			JSONObject o = new JSONObject();
+			o.put("name", "Test Video");
+			o.put("filepath", "content/video/testVideo.mp4");
+			o.put("description", "Test video uploaded for a happy times day in New Mexico.");
+			o.put("type", "video");
+			ContentService.createObject(o);
+		}
+*/
 		JSONObject json = ContentService.getById(id);
 		return Response.status(200).entity(json.toString()).build();
 	}

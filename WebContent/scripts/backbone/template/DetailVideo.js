@@ -1,1 +1,1 @@
-window.Templates.DetailVideo = _.template("<video src=\"<%=filepath%>\" width=\"320\" height=\"240\"></video>");
+window.Templates.DetailVideo = _.template("<video src=\"<%=filepath%>\" width=\"560\" height=\"420\"></video>");

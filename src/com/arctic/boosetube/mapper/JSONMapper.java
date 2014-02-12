@@ -1,5 +1,10 @@
 package com.arctic.boosetube.mapper;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -8,11 +13,15 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 public class JSONMapper {
+	private final static DateFormat contentDateFormat = new SimpleDateFormat("MMMM d, yyyy h:mm a");
+	
 	public static JSONObject map(DBObject dbRecord) {
 		JSONObject json = new JSONObject();
 		for (String key : dbRecord.keySet()) {
 			json.put(key, dbRecord.get(key));
 		}
+		ObjectId oid = new ObjectId(dbRecord.get("_id").toString());
+		json.put("timestamp", contentDateFormat.format(new Date(oid.getTime())));
 		return json;
 	}
 
