@@ -28,9 +28,10 @@ public class ContentRepository implements IRepository {
 		String host = configService.getString("mongodb.host");
 		int port = configService.getInteger("mongodb.port");
 		String database = configService.getString("mongodb.database");
+		System.out.println(host + ":" + port + "/" + database);
 		try {
 			MongoClient mongoClient = new MongoClient(host, port);
-			DB db = mongoClient.getDB(database);
+			DB db = mongoClient.getDB("boosetube-prod");
 			collection = db.getCollection("content");
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
