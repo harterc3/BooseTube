@@ -13,8 +13,6 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-import javax.media.Player;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -42,7 +40,6 @@ import com.arctic.boosetube.repository.IRepository;
 import com.arctic.boosetube.service.ConfigurationService;
 import com.arctic.boosetube.service.ContentService;
 import com.arctic.boosetube.util.StringUtil;
-import com.arctic.boosetube.util.VideoUtil;
 
 @Path("/upload")
 public class UploadResource {
@@ -135,7 +132,7 @@ public class UploadResource {
 					filemeta.setId(oid);
 					String name = String.format("%s.%s", oid, ext);
 					String filepath = fileUploadPath.concat(name);
-					filemeta.setPath(filepath);
+					filemeta.setPath(name);
 					writeToFile(stream, filepath);
 					File file = new File(fileUploadPath, name);
 					if (!file.exists())
@@ -147,18 +144,21 @@ public class UploadResource {
 						filemeta.setType(FileMeta.FileType.Image);
 					} else if (mimeType.startsWith("video")) {
 						filemeta.setType(FileMeta.FileType.Video);
-						
+
 						// thumbnail code
 						/*
-						Player player = VideoUtil.getPlayer(file.getAbsolutePath());
-
-						Image thumb = VideoUtil.getImageOfCurrentFrame(player,
-								VideoUtil.noOfFrames(player) / 2);
-						ImageIO.write(toBufferedImage(thumb, BufferedImage.TYPE_INT_RGB), "jpeg", new File(
-								this.thumbUploadPath + name));
-								*/
+						 * Player player =
+						 * VideoUtil.getPlayer(file.getAbsolutePath());
+						 * 
+						 * Image thumb =
+						 * VideoUtil.getImageOfCurrentFrame(player,
+						 * VideoUtil.noOfFrames(player) / 2);
+						 * ImageIO.write(toBufferedImage(thumb,
+						 * BufferedImage.TYPE_INT_RGB), "jpeg", new File(
+						 * this.thumbUploadPath + name));
+						 */
 						//
-						
+
 					} else if (mimeType.startsWith("audio")) {
 						filemeta.setType(FileMeta.FileType.Audio);
 					} else {
@@ -233,8 +233,8 @@ public class UploadResource {
 		JSONObject jsono = new JSONObject();
 		jsono.put("name", name);
 		jsono.put("size", attr.size());
-		jsono.put("url", fileUploadPath.concat(name));
-		jsono.put("delete_url", "/rest/upload/".concat(oid));
+		jsono.put("url", "/rest/file/".concat(name));
+		jsono.put("delete_url", "/rest/upload/".concat(name));
 		jsono.put("delete_type", "DELETE");
 
 		return jsono;
