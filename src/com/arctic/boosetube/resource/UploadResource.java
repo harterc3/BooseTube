@@ -132,7 +132,7 @@ public class UploadResource {
 					filemeta.setId(oid);
 					String name = String.format("%s.%s", oid, ext);
 					String filepath = fileUploadPath.concat(name);
-					filemeta.setPath(name);
+					filemeta.setPath("/rest/file/" + name);
 					writeToFile(stream, filepath);
 					File file = new File(fileUploadPath, name);
 					if (!file.exists())
