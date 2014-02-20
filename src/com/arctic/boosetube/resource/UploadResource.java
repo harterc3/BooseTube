@@ -170,7 +170,12 @@ public class UploadResource {
 				}
 			}
 			ContentService.createObject(filemeta);
-			return Response.status(200).entity(json.toString()).build();
+			
+			//create json object to send back
+			JSONObject result = new JSONObject();
+			result.put("files", json);
+			
+			return Response.status(200).entity(result).build();
 		}
 		return Response.notModified().build();
 	}
