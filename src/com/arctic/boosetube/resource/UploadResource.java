@@ -175,7 +175,7 @@ public class UploadResource {
 			JSONObject result = new JSONObject();
 			result.put("files", json);
 			
-			return Response.status(200).entity(result).build();
+			return Response.status(200).entity(result.toString()).build();
 		}
 		return Response.notModified().build();
 	}
