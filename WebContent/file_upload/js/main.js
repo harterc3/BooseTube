@@ -19,6 +19,7 @@ $(function () {
         disableImageResize: false,
         // Uncomment the following to send cross-domain cookies:
         //xhrFields: {withCredentials: true},
+        maxFileSize: 10000000,
         url: '/rest/upload'
     });
 
