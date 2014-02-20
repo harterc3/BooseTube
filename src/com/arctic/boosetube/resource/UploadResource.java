@@ -85,14 +85,14 @@ public class UploadResource {
 			DiskFileItemFactory factory = new DiskFileItemFactory();
 
 			// Set factory constraints
-			factory.setSizeThreshold(1000000);
+			factory.setSizeThreshold(100000000);
 			factory.setRepository(new File(this.fileUploadPath));
 
 			// Create a new file upload handler
 			ServletFileUpload upload = new ServletFileUpload(factory);
 
 			// Set overall request size constraint
-			upload.setSizeMax(1000000);
+			upload.setSizeMax(100000000);
 
 			// Parse the request
 			List<FileItem> items = upload.parseRequest(request);
