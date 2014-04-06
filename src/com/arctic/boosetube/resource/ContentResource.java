@@ -31,16 +31,6 @@ public class ContentResource {
 	public Response getContentById(@PathParam("id") String id) {
 		if (id == null || id.isEmpty())
 			return Response.noContent().build();
-		/*
-		if (id.equals("ahoy")) {
-			JSONObject o = new JSONObject();
-			o.put("name", "Test Video");
-			o.put("filepath", "content/video/testVideo.mp4");
-			o.put("description", "Test video uploaded for a happy times day in New Mexico.");
-			o.put("type", "video");
-			ContentService.createObject(o);
-		}
-*/
 		JSONObject json = ContentService.getById(id);
 		return Response.status(200).entity(json.toString()).build();
 	}

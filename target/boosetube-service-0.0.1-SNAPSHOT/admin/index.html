@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BooseTube | Admin Portal</title>
+
+<link rel="apple-touch-icon" sizes="57x57"
+	href="img/favicon/apple-touch-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="114x114"
+	href="img/favicon/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="72x72"
+	href="img/favicon/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="144x144"
+	href="img/favicon/apple-touch-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="60x60"
+	href="img/favicon/apple-touch-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="120x120"
+	href="img/favicon/apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="76x76"
+	href="img/favicon/apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="152x152"
+	href="img/favicon/apple-touch-icon-152x152.png">
+<link rel="icon" type="image/png" href="img/favicon/favicon-196x196.png"
+	sizes="196x196">
+<link rel="icon" type="image/png" href="img/favicon/favicon-160x160.png"
+	sizes="160x160">
+<link rel="icon" type="image/png" href="img/favicon/favicon-96x96.png"
+	sizes="96x96">
+<link rel="icon" type="image/png" href="img/favicon/favicon-32x32.png"
+	sizes="32x32">
+<link rel="icon" type="image/png" href="img/favicon/favicon-16x16.png"
+	sizes="16x16">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-TileImage" content="/mstile-144x144.png">
+
+<script type="text/javascript" src="scripts/vendor/jquery-1.10.2.min.js"></script>
+<script type="text/javascript"
+	src="scripts/vendor/underscore-1.5.2.min.js"></script>
+<script type="text/javascript"
+	src="scripts/vendor/backbone-1.1.0.min.js"></script>
+
+<link rel="stylesheet"
+	href="http://bootswatch.com/yeti/bootstrap.min.css">
+<script
+	src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="styles/vendor/mediaelementplayer.css">
+<script type="text/javascript"
+	src="scripts/vendor/mediaelement-and-player.min.js"></script>
+</head>
+<body>
+	<div class="navbar navbar-default">
+		<div class="container">
+			<div class="navbar-header">
+				<a href="/admin" class="navbar-brand">BooseTube Admin Portal</a>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<h3>Existing Content</h3>
+		<br>
+		<div id="contentListing" class="col-lg-12">
+			<div class="panel panel-success">
+				<div class="panel-heading">
+					<h3 class="panel-title">Ice Skull</h3>
+				</div>
+				<div class="panel-body">
+					<div class="col-lg-4">
+						<img class="img-responsive"
+							src="http://tweakers.net/ext/f/FeILFSWp4f4sTNWsRLYbhk64/full.jpg"
+							alt="Ice Skull" />
+					</div>
+					<div class="col-lg-8">
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							Donec mattis urna dui, id posuere leo bibendum a. Nullam accumsan
+							pretium lectus et fermentum. Donec molestie interdum orci, eu
+							aliquam dui dapibus ac. Duis eget faucibus elit. Aenean non
+							fermentum lectus, ut tristique lorem. Praesent ac est quis erat
+							varius consequat. Morbi mattis leo ante, at faucibus nisi
+							sagittis sit amet. Donec mattis et libero in sodales. Ut rutrum
+							convallis ullamcorper. Curabitur felis dolor, aliquet sit amet
+							metus vitae, iaculis gravida ante. Vestibulum vitae risus
+							condimentum, vestibulum quam ac, aliquam mauris.</p>
+						<p>Upload date: March 1, 2013</p>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-danger">
+				<div class="panel-heading">
+					<h3 class="panel-title">Inactive Content</h3>
+				</div>
+				<div class="panel-body">YEH some inactive content</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<div class="container">
+		<footer>
+			<div class="container-fluid">
+				<ul class="nav nav-pills pull-right social-nav">
+					<li>© 2014 Arctic Studios LLC</li>
+				</ul>
+			</div>
+		</footer>
+	</div>
+
+	<script type="text/javascript">
+		// Backbone setup
+		window.App = {
+			Model : {},
+			Collection : {},
+			View : {},
+			Router : {}
+		};
+
+		window.Templates = {};
+	</script>
+
+	<script type="text/javascript" src="scripts/backbone/model/Content.js"></script>
+	<script type="text/javascript"
+		src="scripts/backbone/template/Thumbnail.js"></script>
+	<script type="text/javascript"
+		src="scripts/backbone/template/ThumbnailList.js"></script>
+	<script type="text/javascript" src="scripts/backbone/view/Thumbnail.js"></script>
+	<script type="text/javascript"
+		src="scripts/backbone/view/SearchControl.js"></script>
+	<script type="text/javascript"
+		src="scripts/backbone/view/ThumbnailList.js"></script>
+	<script type="text/javascript" src="scripts/backbone/view/Modal.js"></script>
+	<script type="text/javascript"
+		src="scripts/backbone/controller/ContentController.js"></script>
+	<script type="text/javascript">
+		ContentController.init();
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('video,audio').mediaelementplayer();
+		});
+	</script>
+</body>
+</html>

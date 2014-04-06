@@ -9,7 +9,7 @@ public class ConfigurationService {
 	public ConfigurationService() {
 		try {
 			_config = new XMLConfiguration( 
-					"/var/lib/tomcat7/webapps/ROOT/configuration.xml");
+					"C:\\Users\\Fury\\git\\BooseTube\\configuration.xml");
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
 		}

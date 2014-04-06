@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BooseTube | Admin Portal</title>
+
+<link rel="apple-touch-icon" sizes="57x57"
+	href="img/favicon/apple-touch-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="114x114"
+	href="img/favicon/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="72x72"
+	href="img/favicon/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="144x144"
+	href="img/favicon/apple-touch-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="60x60"
+	href="img/favicon/apple-touch-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="120x120"
+	href="img/favicon/apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="76x76"
+	href="img/favicon/apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="152x152"
+	href="img/favicon/apple-touch-icon-152x152.png">
+<link rel="icon" type="image/png" href="img/favicon/favicon-196x196.png"
+	sizes="196x196">
+<link rel="icon" type="image/png" href="img/favicon/favicon-160x160.png"
+	sizes="160x160">
+<link rel="icon" type="image/png" href="img/favicon/favicon-96x96.png"
+	sizes="96x96">
+<link rel="icon" type="image/png" href="img/favicon/favicon-32x32.png"
+	sizes="32x32">
+<link rel="icon" type="image/png" href="img/favicon/favicon-16x16.png"
+	sizes="16x16">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-TileImage" content="/mstile-144x144.png">
+
+<script type="text/javascript" src="scripts/vendor/jquery-1.10.2.min.js"></script>
+<script type="text/javascript"
+	src="scripts/vendor/underscore-1.5.2.min.js"></script>
+<script type="text/javascript"
+	src="scripts/vendor/backbone-1.1.0.min.js"></script>
+
+<link rel="stylesheet"
+	href="http://bootswatch.com/yeti/bootstrap.min.css">
+<script
+	src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="styles/vendor/mediaelementplayer.css">
+<script type="text/javascript"
+	src="scripts/vendor/mediaelement-and-player.min.js"></script>
+</head>
+<body>
+	<div class="navbar navbar-default">
+		<div class="container">
+			<div class="navbar-header">
+				<a href="/admin" class="navbar-brand">BooseTube Admin Portal</a>
+			</div>
+			<div class="navbar-collapse collapse navbar-responsive-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="/admin/file-upload.html">File Upload</a></li>
+					<li><a href="/admin/article-create.html">Article Creation</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<h3>File Upload</h3>
+		<br>
+		<form action="/boosetube-service/rest/upload"
+			enctype="multipart/form-data" method="post">
+			<p>
+				Title:<br> <input type="text" name="title" size="25">
+			</p>
+			<p>
+				Description:<br> <input type="text" name="description"
+					size="50">
+			</p>
+			<p>
+				Keywords (comma seperated):<br> <input type="text"
+					name="keywords" size="30">
+			</p>
+			<p>
+				Choose a file:<br> <input type="file" name="datafile">
+			</p>
+			<div>
+				<input type="submit" value="Create">
+			</div>
+		</form>
+		<br>
+	</div>
+	<div class="container">
+		<footer>
+			<div class="container-fluid">
+				<ul class="nav nav-pills pull-right social-nav">
+					<li>© 2014 Arctic Studios LLC</li>
+				</ul>
+			</div>
+		</footer>
+	</div>
+
+	<script type="text/javascript">
+		// Backbone setup
+		window.App = {
+			Model : {},
+			Collection : {},
+			View : {},
+			Router : {}
+		};
+
+		window.Templates = {};
+	</script>
+
+	<script type="text/javascript" src="scripts/backbone/model/Content.js"></script>
+	<script type="text/javascript"
+		src="scripts/backbone/template/Thumbnail.js"></script>
+	<script type="text/javascript"
+		src="scripts/backbone/template/ThumbnailList.js"></script>
+	<script type="text/javascript" src="scripts/backbone/view/Thumbnail.js"></script>
+	<script type="text/javascript"
+		src="scripts/backbone/view/SearchControl.js"></script>
+	<script type="text/javascript"
+		src="scripts/backbone/view/ThumbnailList.js"></script>
+	<script type="text/javascript" src="scripts/backbone/view/Modal.js"></script>
+	<script type="text/javascript"
+		src="scripts/backbone/controller/ContentController.js"></script>
+	<script type="text/javascript">
+		ContentController.init();
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('video,audio').mediaelementplayer();
+		});
+	</script>
+</body>
+</html>
